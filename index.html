@@ -1,0 +1,157 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NEXUS Key System</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    background: #09090f;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.container {
+    width: 100%;
+    max-width: 420px;
+    background: #14141e;
+    border: 1px solid #853cff;
+    border-radius: 16px;
+    padding: 30px;
+    box-shadow: 0 0 35px #853cff22;
+}
+
+h1 {
+    text-align: center;
+    font-size: 30px;
+    letter-spacing: 5px;
+    color: #ae78ff;
+}
+
+.subtitle {
+    text-align: center;
+    color: #888;
+    margin: 12px 0 30px;
+    font-size: 13px;
+}
+
+button {
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-radius: 9px;
+    background: #873cff;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 12px;
+    transition: .2s;
+}
+
+button:hover {
+    background: #a36aff;
+    transform: translateY(-2px);
+}
+
+.discord {
+    background: #5865F2;
+}
+
+.status {
+    margin-top: 20px;
+    text-align: center;
+    color: #aaa;
+    font-size: 13px;
+}
+
+.footer {
+    margin-top: 25px;
+    text-align: center;
+    color: #555;
+    font-size: 11px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>NEXUS</h1>
+
+    <div class="subtitle">
+        KEY AUTHENTICATION SYSTEM
+    </div>
+
+    <button class="discord"
+    onclick="window.open('https://discord.gg/bG6vGkzB5D','_blank')">
+        JOIN DISCORD
+    </button>
+
+    <button onclick="generateKey()">
+        GENERATE KEY
+    </button>
+
+    <div class="status" id="status">
+        Ready.
+    </div>
+
+    <div class="footer">
+        NEXUS SYSTEM · 24 HOUR ACCESS
+    </div>
+
+</div>
+
+<script>
+async function generateKey() {
+    const status = document.getElementById("status");
+
+    status.textContent = "Connecting to authentication server...";
+
+    // Configure this after deploying your backend.
+    const API = "";
+
+    if (!API) {
+        status.textContent =
+            "Authentication API has not been connected yet.";
+        return;
+    }
+
+    try {
+        const response = await fetch(API + "/api/generate", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+
+        const data = await response.json();
+
+        if (!response.ok || !data.success) {
+            throw new Error("Generation failed");
+        }
+
+        status.textContent =
+            "Your key has been sent to Discord!";
+
+    } catch (error) {
+        status.textContent = "Could not generate key.";
+    }
+}
+</script>
+
+</body>
+</html>
