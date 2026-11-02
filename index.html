@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NEXUS Key Generator</title>
+<title>NEXUS Key System</title>
 
 <style>
 * {
@@ -16,128 +16,118 @@
 body {
     min-height: 100vh;
     display: flex;
-    align-items: center;
     justify-content: center;
-    padding: 20px;
-    background:
-        radial-gradient(circle at top, #32145b 0%, transparent 45%),
-        #08060f;
-    color: white;
+    align-items: center;
+    background: #090a12;
     font-family: Arial, sans-serif;
+    color: white;
+    padding: 18px;
 }
 
 .container {
     width: 100%;
-    max-width: 420px;
-    padding: 30px 24px;
-    background: rgba(20, 14, 34, 0.96);
-    border: 1px solid #6736a5;
-    border-radius: 18px;
-    box-shadow: 0 0 40px rgba(130, 55, 220, 0.2);
-    text-align: center;
+    max-width: 390px;
+    background: #111321;
+    border: 1px solid #7655ed;
+    border-radius: 16px;
+    padding: 27px 22px;
+    box-shadow: 0 0 35px #7655ed25;
 }
 
 .logo {
-    color: #bd83ff;
-    font-size: 34px;
+    text-align: center;
+    font-size: 29px;
     font-weight: 900;
-    letter-spacing: 5px;
+    letter-spacing: 8px;
+    color: #a58aff;
 }
 
 .subtitle {
-    margin-top: 8px;
-    color: #a99ab9;
-    font-size: 13px;
-}
-
-.line {
-    height: 1px;
-    background: #38234e;
-    margin: 25px 0;
-}
-
-h2 {
-    font-size: 19px;
-    margin-bottom: 10px;
-}
-
-.description {
-    color: #a99ab9;
-    font-size: 13px;
-    line-height: 1.5;
-}
-
-.key-box {
-    display: none;
-    margin-top: 24px;
-    padding: 15px;
-    background: #0c0913;
-    border: 1px solid #7441b4;
-    border-radius: 10px;
-}
-
-.key-label {
-    color: #a99ab9;
-    font-size: 11px;
-    margin-bottom: 10px;
+    text-align: center;
+    color: #85869e;
+    font-size: 10px;
     letter-spacing: 2px;
+    margin: 9px 0 28px;
 }
 
-#keyOutput {
-    color: #d5adff;
-    font-size: 19px;
-    font-weight: bold;
-    overflow-wrap: anywhere;
-    letter-spacing: 1px;
+input {
+    width: 100%;
+    padding: 15px;
+    border: 1px solid #30334b;
+    border-radius: 8px;
+    outline: none;
+    background: #1b1d30;
+    color: white;
+    font-size: 14px;
+}
+
+input:focus {
+    border-color: #9675ff;
+}
+
+.buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 14px;
 }
 
 button {
-    width: 100%;
-    padding: 14px;
+    flex: 1;
+    padding: 14px 8px;
     border: none;
-    border-radius: 9px;
-    font-size: 14px;
+    border-radius: 8px;
+    background: #7655ed;
+    color: white;
     font-weight: bold;
     cursor: pointer;
-    transition: 0.2s;
+    transition: .2s;
 }
 
-button:active {
-    transform: scale(0.97);
+button:hover {
+    background: #9277ff;
+    transform: translateY(-2px);
 }
 
-.generate {
-    margin-top: 25px;
-    color: white;
-    background: linear-gradient(100deg, #7133c7, #a34be9);
-}
-
-.generate:hover {
-    filter: brightness(1.15);
-}
-
-.copy {
-    margin-top: 12px;
-    color: white;
-    background: #292039;
-    border: 1px solid #7045a5;
-}
-
-.copy:hover {
-    background: #392650;
+button:disabled {
+    opacity: .5;
+    cursor: wait;
+    transform: none;
 }
 
 .status {
-    min-height: 18px;
-    margin-top: 13px;
-    color: #b88bea;
+    margin-top: 22px;
+    min-height: 35px;
+    color: #aaaac1;
     font-size: 12px;
+    overflow-wrap: anywhere;
 }
 
+.status.success { color: #69f5a2; }
+.status.error { color: #ff7373; }
+.status.loading { color: #ffd36b; }
+
 .footer {
-    margin-top: 25px;
-    color: #71647f;
-    font-size: 11px;
+    margin-top: 20px;
+    text-align: center;
+    font-size: 9px;
+    color: #666780;
+    letter-spacing: 2px;
+}
+
+.loader {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border: 2px solid #ffffff40;
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin .7s linear infinite;
+    vertical-align: middle;
+    margin-right: 7px;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
 }
 </style>
 </head>
@@ -145,80 +135,225 @@ button:active {
 <body>
 
 <div class="container">
-
     <div class="logo">NEXUS</div>
-    <div class="subtitle">KEY GENERATOR</div>
+    <div class="subtitle">PLATOBOOST AUTHENTICATION</div>
 
-    <div class="line"></div>
+    <input
+        id="keyInput"
+        type="text"
+        placeholder="Enter your key..."
+        autocomplete="off"
+    >
 
-    <h2>Generate your key</h2>
-    <p class="description">
-        Press the button below to generate your personal NEXUS key.
-    </p>
-
-    <div class="key-box" id="keyBox">
-        <div class="key-label">YOUR GENERATED KEY</div>
-        <div id="keyOutput"></div>
-        <button class="copy" onclick="copyKey()">COPY KEY</button>
+    <div class="buttons">
+        <button id="getKey">GET KEY</button>
+        <button id="verifyKey">VERIFY KEY</button>
     </div>
 
-    <button class="generate" onclick="generateKey()">
-        GENERATE KEY
-    </button>
-
-    <div class="status" id="status"></div>
+    <div id="status" class="status">
+        ● Waiting for authentication
+    </div>
 
     <div class="footer">
-        NEXUS SYSTEM
+        NEXUS • SECURE ACCESS
     </div>
-
 </div>
 
 <script>
-let currentKey = "";
+const CONFIG = {
+    serviceId: "36392",
+    apiHosts: [
+        "https://api.platoboost.com",
+        "https://api.platoboost.net"
+    ]
+};
 
-function randomCharacters(length) {
-    const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-    const values = new Uint8Array(length);
+const statusElement = document.getElementById("status");
+const keyInput = document.getElementById("keyInput");
+const getButton = document.getElementById("getKey");
+const verifyButton = document.getElementById("verifyKey");
 
-    if (window.crypto && window.crypto.getRandomValues) {
-        window.crypto.getRandomValues(values);
-    } else {
-        for (let i = 0; i < length; i++) {
-            values[i] = Math.floor(Math.random() * 256);
+let identifier = localStorage.getItem("nexus_identifier");
+
+if (!identifier) {
+    identifier = crypto.randomUUID();
+    localStorage.setItem("nexus_identifier", identifier);
+}
+
+let cachedLink = "";
+let cachedAt = 0;
+let busy = false;
+
+function setStatus(message, type = "") {
+    statusElement.className = "status " + type;
+    statusElement.textContent = "● " + message;
+}
+
+function setLoading(message) {
+    statusElement.className = "status loading";
+    statusElement.innerHTML =
+        '<span class="loader"></span>' + message;
+}
+
+async function apiRequest(method, endpoint, body) {
+    let lastError = "Unable to connect to Platoboost.";
+
+    for (const host of CONFIG.apiHosts) {
+        try {
+            const response = await fetch(host + endpoint, {
+                method,
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: body ? JSON.stringify(body) : undefined
+            });
+
+            const result = await response.json();
+
+            if (!response.ok) {
+                lastError =
+                    result.message || "HTTP " + response.status;
+                continue;
+            }
+
+            return result;
+
+        } catch (error) {
+            lastError = error.message;
         }
     }
 
-    return Array.from(values, value =>
-        characters[value % characters.length]
-    ).join("");
+    throw new Error(lastError);
 }
 
-function generateKey() {
-    currentKey = "NEXUS-" + randomCharacters(8);
+async function generateLink() {
+    if (cachedLink && Date.now() - cachedAt < 600000) {
+        return cachedLink;
+    }
 
-    document.getElementById("keyOutput").textContent = currentKey;
-    document.getElementById("keyBox").style.display = "block";
-    document.getElementById("status").textContent = "Key generated successfully!";
+    const response = await apiRequest(
+        "POST",
+        "/public/start",
+        {
+            service: CONFIG.serviceId,
+            identifier
+        }
+    );
+
+    if (response.success !== true || !response.data?.url) {
+        throw new Error(
+            response.message || "Checkpoint URL was not returned."
+        );
+    }
+
+    cachedLink = response.data.url;
+    cachedAt = Date.now();
+
+    return cachedLink;
 }
 
-async function copyKey() {
-    if (!currentKey) return;
-
+async function copyText(text) {
     try {
-        await navigator.clipboard.writeText(currentKey);
-        document.getElementById("status").textContent = "Key copied!";
-    } catch (error) {
-        const textArea = document.createElement("textarea");
-        textArea.value = currentKey;
-        document.body.appendChild(textArea);
-        textArea.select();
-        document.execCommand("copy");
-        textArea.remove();
+        await navigator.clipboard.writeText(text);
+        return true;
+    } catch {
+        const textarea = document.createElement("textarea");
+        textarea.value = text;
+        textarea.style.position = "fixed";
+        textarea.style.opacity = "0";
+        document.body.appendChild(textarea);
+        textarea.select();
 
-        document.getElementById("status").textContent = "Key copied!";
+        const copied = document.execCommand("copy");
+        textarea.remove();
+
+        return copied;
     }
 }
+
+getButton.addEventListener("click", async () => {
+    if (busy) return;
+
+    busy = true;
+    getButton.disabled = true;
+
+    setLoading("Generating checkpoint...");
+
+    try {
+        const link = await generateLink();
+        const copied = await copyText(link);
+
+        if (copied) {
+            setStatus(
+                "Checkpoint link copied successfully!",
+                "success"
+            );
+        } else {
+            setStatus(
+                "Copy unavailable. Open this link: " + link,
+                "error"
+            );
+        }
+    } catch (error) {
+        setStatus("API error: " + error.message, "error");
+    }
+
+    busy = false;
+    getButton.disabled = false;
+});
+
+verifyButton.addEventListener("click", async () => {
+    if (busy) return;
+
+    const key = keyInput.value.trim();
+
+    if (!key) {
+        setStatus("Please enter your key.", "error");
+        return;
+    }
+
+    busy = true;
+    verifyButton.disabled = true;
+
+    setLoading("Verifying key...");
+
+    try {
+        const params = new URLSearchParams({
+            identifier,
+            key,
+            nonce: "true"
+        });
+
+        const response = await apiRequest(
+            "GET",
+            "/public/whitelist/" +
+            CONFIG.serviceId + "?" + params
+        );
+
+        if (response.success !== true) {
+            throw new Error(
+                response.message || "Key verification failed."
+            );
+        }
+
+        const data = response.data || {};
+
+        if (data.valid !== true && data.whitelisted !== true) {
+            throw new Error(data.message || "Key is not valid.");
+        }
+
+        setStatus(
+            "Key accepted! Authentication successful.",
+            "success"
+        );
+
+    } catch (error) {
+        setStatus(error.message, "error");
+    }
+
+    busy = false;
+    verifyButton.disabled = false;
+});
 </script>
 
 </body>
